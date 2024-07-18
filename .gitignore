@@ -1,0 +1,11 @@
+/.ipynb_checkpoints
+__pycache__
+weights
+weights/
+/.vscode
+runs/
+runs
+tokenizer_en.json
+tokenizer_it.json
+readme.md
+
