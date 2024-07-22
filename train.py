@@ -99,7 +99,7 @@ def run_validation(model, validation_ds, tokenizer_src, tokenizer_tgt, max_len, 
 def get_ds(config):
     ds_raw = load_dataset(config["datasource"])
     # Build tokenizers 
-    ds_raw = ds_raw["test"]
+    ds_raw = ds_raw["train"]
     if config['tokenizer_method']=="bpe":
         tokenizer_src = bpe_tokenizer(config, ds_raw, config['lang_src'])
         tokenizer_tgt = bpe_tokenizer(config, ds_raw, config['lang_tgt'])
@@ -137,7 +137,15 @@ def get_ds(config):
     return train_dataloader, val_dataloader, tokenizer_src, tokenizer_tgt
 
 def get_model(config, vocab_src_len, vocab_tgt_len):
-    model = build_transformer(vocab_src_len, vocab_tgt_len, config['seq_len'],config['seq_len'],config['d_model'])
+    src_seq_len = config['seq_len']
+    tgt_seq_len = config['seq_len']
+    d_model = config["d_model"]
+    d_ff = config["d_ff"]
+    N = config["N"]
+    h = config["h"]
+    dropout = config["dropout"]
+    model = build_transformer(vocab_src_len, vocab_tgt_len, src_seq_len, tgt_seq_len,d_model, N ,h, dropout, d_ff)
+
     return model
 def train_model(config):
     # Define the device 
